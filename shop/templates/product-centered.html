@@ -1,0 +1,55 @@
+{% extends "layout.html"%}
+{%block body%}
+{%load static%}
+        <main class="main">
+
+            <div class="page-content" style="margin-top: 20px;">
+                <div class="container">
+                    <div class="product-details-top mb-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="product-gallery product-gallery-vertical">
+                                    <div class="row">
+                                        <figure class="product-main-image">
+                                            <img id="product-zoom" src="{%static 'images/products/single/centered/1.jpg'%}" data-zoom-image="{%static 'images/products/single/centered/1-big.jpg" alt="product image">
+
+                                        </figure><!-- End .product-main-image -->
+
+                                    </div><!-- End .row -->
+                                </div><!-- End .product-gallery -->
+                            </div><!-- End .col-md-6 -->
+
+                            <div class="col-md-6">
+                                <div class="product-details product-details-centered">
+                                    <h1 class="product-title">Beige metal hoop tote bag</h1><!-- End .product-title -->
+
+
+                                    <div class="product-price">
+                                        $76.00
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-content">
+                                        <p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero.</p>
+                                    </div><!-- End .product-content -->
+
+                                    <div class="product-details-action">
+                                        <div class="details-action-col">
+                                            <div class="product-details-quantity">
+                                                <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                            </div><!-- End .product-details-quantity -->
+
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .details-action-col -->
+
+                                    </div><!-- End .product-details-action -->
+
+                                </div><!-- End .product-details -->
+                            </div><!-- End .col-md-6 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .product-details-top -->
+
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+{%endblock%}
