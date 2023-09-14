@@ -66,11 +66,21 @@
 
             <div class="header-right">
                 <div class="wishlist">
-                    <a href="#" title="account">
+                    {% if request.user.is_authenticated %}
+                    <a href="{%url 'myAccount'%}" title="account">
                         <div class="icon">
                             <i class="icon-user"></i>
                         </div>
+                        <p>Account</p>
                     </a>
+                    {% else %}
+                    <a href="{%url 'login'%}" title="signin">
+                        <div class="icon">
+                            <i class="icon-user"></i>
+                        </div>
+                        <p>sign in</p>
+                    </a>
+                    {% endif %}
                 </div><!-- End .dropdown -->
 
                 <div class="dropdown cart-dropdown">
@@ -89,20 +99,25 @@
     <div class="header-bottom sticky-header">
         <div class="container">
             <div class="header-left">
+                
                 <div class="dropdown category-dropdown">
                     <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false" data-display="static"
                         title="Browse Categories">
                         Browse Categories <i class="icon-angle-down"></i>
                     </a>
-
+                    
                     <div class="dropdown-menu">
                         <nav class="side-nav">
                             <ul class="menu-vertical sf-arrows">
-                                <li><a href="#">Outdoor Furniture </a></li>
+                                {%for cata in catagory%}
+                                <li><a href="{%url 'shop' cata.id %}">{{cata.name}} </a></li>
+                                {%endfor%}
                             </ul><!-- End .menu-vertical -->
+
                         </nav><!-- End .side-nav -->
                     </div><!-- End .dropdown-menu -->
+                    
                 </div><!-- End .category-dropdown -->
             </div><!-- End .header-left -->
 
@@ -179,7 +194,11 @@
                         <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
 
                         <ul class="widget-list">
-                            <li><a href="{% url 'login'%}">Sign In</a></li>
+                            {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'myAccount'%}">Account</a></li>
+                            {% else %}
+                           <li><a href="{% url 'login'%}">Sign In</a></li>
+                            {% endif %}
                             <li><a href="{% url 'cart'%}">View Cart</a></li>
                             <li><a href="#">Help</a></li>
                         </ul><!-- End .widget-list -->

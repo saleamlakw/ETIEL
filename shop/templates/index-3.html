@@ -40,31 +40,30 @@
                                     }
                                 }
                             }'>
+                            {%for product in products%}
                             <div class="product product-2">
                                 <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{%static 'images/demos/demo-3/products/product-11.jpg'%}"
+                                    <a href="{%url 'product' product.id %}">
+                                        <img src="{{product.image.url}}"
                                             alt="Product image" class="product-image">
                                     </a>
-
-
                                     <div class="product-action product-action-dark">
                                         <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to
                                                 cart</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
-
                                 <div class="product-body">
                                     <div class="product-cat">
-                                        <a href="#">Laptops</a>
+                                        <a href="#">{{product.catagory}}</a>
                                     </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="product.html">MacBook Pro 13" Display, i5</a>
+                                    <h3 class="product-title"><a href="product.html">{{product.name}}" Display, i5</a>
                                     </h3><!-- End .product-title -->
                                     <div class="product-price">
-                                        $1,199.99
+                                        {{product.price|floatformat:2}}
                                     </div><!-- End .product-price -->
                                 </div><!-- End .product-body -->
                             </div><!-- End .product -->  
+                            {%endfor%}
                         </div><!-- End .owl-carousel -->
                     </div><!-- .End .tab-pane -->
                 </div><!-- End .tab-content -->

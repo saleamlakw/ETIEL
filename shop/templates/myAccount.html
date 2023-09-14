@@ -1,0 +1,86 @@
+
+{% extends "layout.html"%}
+{%block body%}
+{%load static%}
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">My Account</h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                <div class="container">
+                    <ol class="breadcrumb">
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="dashboard">
+	                <div class="container">
+	                	<div class="row">
+	                		<aside class="col-md-4 col-lg-3">
+	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+									<li class="nav-item active" >
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="true">Account Details</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+								    </li>
+		
+								    <li class="nav-item">
+								        <a class="nav-link" href="{%url 'logout'%}">Sign Out</a>
+								    </li>
+								</ul>
+	                		</aside><!-- End .col-lg-3 -->
+	                		<div class="col-md-8 col-lg-9">
+	                			<div class="tab-content">
+									<div class="tab-pane fade show active" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+								    	<form action="{%url 'myAccount'%}" method="POST">
+											{% csrf_token %}
+			                				<div class="row">
+			                					<div class="col-sm-6">
+			                						<label for="first_name">First Name *</label>
+			                						<input id="first_name"  name="first_name" type="text" class="form-control" required value={{user.first_name}}>
+			                					</div><!-- End .col-sm-6 -->
+			                					<div class="col-sm-6">
+			                						<label for="last_name">Last Name *</label>
+			                						<input id="last_name"  name="last_name" type="text" class="form-control" required value={{user.last_name}}>
+			                					</div><!-- End .col-sm-6 -->
+			                				</div><!-- End .row -->
+		            						<label for="username">User Name*</label>
+		            						<input id="username"  name="username" type="text" class="form-control" required value={{user.username}}>
+		                					<label for="email">Email address *</label>
+		        							<input  id="email"  name="email" type="email" class="form-control" required value={{user.email}}>
+		            						<label for="cur_password">Current password (leave blank to leave unchanged)</label>
+		            						<input id="cur_password"  name="cur_password" type="password" class="form-control">
+		            						<label for="new_password">New password (leave blank to leave unchanged)</label>
+		            						<input id="new_password"  name="new_password" type="password" class="form-control">
+		            						<label for="confirm_password">Confirm new password</label>
+		            						<input id="confirm_password"  name="confirm_password" type="password" class="form-control mb-2">
+		                					<button type="submit" class="btn btn-outline-primary-2"  value="Update">
+			                					<span>SAVE CHANGES</span>
+			            						<i class="icon-long-arrow-right"></i>
+			                				</button>
+			                			</form>
+										<div class="form-group">
+										{% for message in messages %}
+										<div class="alert alert-danger" role="alert">
+										{{message}}
+										</div>
+										{% endfor %}
+									</div>
+								    </div><!-- .End .tab-pane -->
+								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+								    	<p>No order has been made yet.</p>
+								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+								    </div><!-- .End .tab-pane -->
+								</div>
+	                		</div><!-- End .col-lg-9 -->
+	                	</div><!-- End .row -->
+	                </div><!-- End .container -->
+                </div><!-- End .dashboard -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+{%endblock%}
+        

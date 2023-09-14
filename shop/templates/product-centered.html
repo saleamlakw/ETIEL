@@ -11,7 +11,7 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-                                            <img id="product-zoom" src="{%static 'images/products/single/centered/1.jpg'%}" data-zoom-image="{%static 'images/products/single/centered/1-big.jpg" alt="product image">
+                                            <img id="product-zoom" src="{{product.image.url}}" data-zoom-image="{{product.image.url}}" alt="product image">
 
                                         </figure><!-- End .product-main-image -->
 
@@ -21,15 +21,15 @@
 
                             <div class="col-md-6">
                                 <div class="product-details product-details-centered">
-                                    <h1 class="product-title">Beige metal hoop tote bag</h1><!-- End .product-title -->
+                                    <h1 class="product-title">{{product.name}}</h1><!-- End .product-title -->
 
 
                                     <div class="product-price">
-                                        $76.00
+                                        {{product.price}}
                                     </div><!-- End .product-price -->
 
                                     <div class="product-content">
-                                        <p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero.</p>
+                                        <p>{{product.description}}</p>
                                     </div><!-- End .product-content -->
 
                                     <div class="product-details-action">
