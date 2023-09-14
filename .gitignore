@@ -1,9 +1,9 @@
 # .gitignore
 # Project files and directories
-onlineshoping/settings.py
-/myproject/static/
-/myproject/tmp/
-/myproject/media/
+/onlineshoping/settings.py
+/onlineshoping/static/
+/onlineshoping/tmp/
+/onlineshoping/media/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
