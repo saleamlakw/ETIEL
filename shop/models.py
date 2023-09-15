@@ -41,6 +41,14 @@ class Order_item(models.Model):
     order=models.ForeignKey(Order,on_delete=models.SET_NULL,null=True)
     quantity=models.IntegerField(default=0,null=True,blank=True)
     date_added=models.DateTimeField(auto_now_add=True)
+class Contact_mod(models.Model):
+    name=models.CharField(max_length=200)
+    email=models.EmailField(null=True)
+    phone=models.CharField(max_length=200)
+    subject=models.TextField()
+    message=models.TextField()
+    def __str__(self):
+        return self.name
 # class Shiping_adress(models.Model):
 #     customer=models.ForeignKey(Customer,on_delete=models.SET_NULL,null=True)
 #     order=models.ForeignKey(Order,on_delete=models.SET_NULL,null=True)

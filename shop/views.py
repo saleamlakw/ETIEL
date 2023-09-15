@@ -27,6 +27,19 @@ def cart(request):
 def checkout(request):
     return render(request,'checkout.html')
 def contact(request):
+    if request.method=='POST':
+        name=request.POST['name']
+        phone=request.POST['phone']
+        email=request.POST['email']
+        subject=request.POST['subject']
+        message=request.POST['message']
+        mod=Contact_mod()
+        mod.name=name
+        mod.phone=phone
+        mod.email=email
+        mod.subject=subject
+        mod.message=message
+        mod.save()
     return render(request,'contact-2.html')
 def login(request):
     if request.method == 'POST':
@@ -87,7 +100,6 @@ def myAccount(request):
         # Get the current user
         user = request.user
         # Update user information
-        tt=""
         if new_password:
             if cur_password:
                 authenticated_user = authenticate(username=request.user.username, password=cur_password)
@@ -95,15 +107,13 @@ def myAccount(request):
                     if confirm_password:
                         if new_password==confirm_password:
                             user.set_password(confirm_password)
-                            tt=confirm_password
-                            print(confirm_password)
+                            messages.info(request, "password changed sucessfully")
                         else:
                             messages.info(request, 'The new password and the confirmed password are not the same')
                     else:
                         messages.info(request, 'confirm your password')          
                 else:
-                    messages.info(request, user.password)
-                    messages.info(request, user.username)
+                    messages.info(request, "you entered incorrect password in current password field")
         if first_name:
             user.first_name=first_name
         if last_name:
@@ -123,7 +133,7 @@ def myAccount(request):
                 'error'
             )
         # Redirect to a success page or appropriate URL
-        return redirect('home')
+        return redirect('myAccount')
     else:
         user= User.objects.get(username=request.user)
         return render(request,'myAccount.html',{"user":user})
