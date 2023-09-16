@@ -84,10 +84,10 @@
                 </div><!-- End .dropdown -->
 
                 <div class="dropdown cart-dropdown">
-                    <a href="#" class="dropdown-toggle" >
+                    <a href="{%url 'cart'%}" class="dropdown-toggle" >
                         <div class="icon">
                             <i class="icon-shopping-cart"></i>
-                            <span class="cart-count">2</span>
+                            <span class="cart-count">{{total_item}}</span>
                         </div>
                         <p>Cart</p>
                     </a>

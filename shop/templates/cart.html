@@ -15,7 +15,14 @@
             <div class="page-content">
             	<div class="cart">
 	                <div class="container">
+						{%if not cart_items%}
+						<h2 class="text-center">Your cart is empty</h2>
+						<div class="text-center">
+							<a class="btn btn-outline-primary-2" href="{%url 'home'%}">countinue shoping</a>
+						</div>
+						{%else%}
 	                	<div class="row">
+				
 	                		<div class="col-lg-9">
 	                			<table class="table table-cart table-mobile">
 									<thead>
@@ -27,32 +34,51 @@
 											<th></th>
 										</tr>
 									</thead>
-
+							
 									<tbody>
+										{%for cart_item in cart_items%}
 										<tr>
 											<td class="product-col">
 												<div class="product">
 													<figure class="product-media">
 														<a href="#">
-															<img src="{%static 'images/products/table/product-1.jpg'%}" alt="Product image">
+															<img src="{{cart_item.product.image.url}}" alt="Product image">
 														</a>
 													</figure>
 
 													<h3 class="product-title">
-														<a href="#">Beige knitted elastic runner shoes</a>
+														<a href="{%url 'product' cart_item.product.id %}">{{cart_item.product.name}}</a>
 													</h3><!-- End .product-title -->
 												</div><!-- End .product -->
 											</td>
-											<td class="price-col">$84.00</td>
+											<td class="price-col">{{cart_item.product.price}}</td>
 											<td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
+												<div class="cart-product-quantity">
+													<div class="input-group input-spinner">
+														<div class="input-group-prepend">
+															<a href="{%url 'remove_cart' cart_item.product.id%}" class="btn btn-decrement btn-spinner" type="button" id="button-plus" style="min-width: 26px">
+																<i class="icon-minus"></i></a>
+														</div>
+														<input type="text" class="form-control" value="{{cart_item.quantity}}" style="text-align: center" min="1" max="{{cart_item.product.quantity}}" step="1" data-decimals="0" required >
+														<div class="input-group-append">
+															<a href="{%url 'add_cart' cart_item.product.id%}" class="btn btn-increment btn-spinner" type="button" id="button-minus" style="min-width: 26px">
+																<i class="icon-plus"></i></a>
+														</div>
+													</div>
+												</div> 
+                                                <!-- <div class="cart-product-quantity">
+                                                    <input type="number" class="form-control" value="{{cart_item.quantity}}" min="0" max="10" step="1" data-decimals="0" required>
+                                                </div>End .cart-product-quantity -->
                                             </td>
-											<td class="total-col">$84.00</td>
-											<td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+											<td class="total-col">{{cart_item.sub_total}}</td>
+											<td class="remove-col">
+			
+												<a href="{%url 'remove_cart_item' cart_item.product.id%}" class="btn-remove"><i class="icon-close"></i></a>
+											</td>
 										</tr>
+										{%endfor%}
 									</tbody>
+									
 								</table><!-- End .table table-wishlist -->
 
 	                		</div><!-- End .col-lg-9 -->
@@ -64,13 +90,15 @@
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Subtotal:</td>
-	                							<td>$160.00</td>
+	                							<td>{{total}}</td>
 	                						</tr><!-- End .summary-subtotal -->
-	                					
-
+											<tr class="summary-subtotal">
+	                							<td>Tax:</td>
+	                							<td>{{tax}}</td>
+	                						</tr><!-- End .summary-subtotal -->
 	                						<tr class="summary-total">
 	                							<td>Total:</td>
-	                							<td>$160.00</td>
+	                							<td>{{grand_total}}</td>
 	                						</tr><!-- End .summary-total -->
 	                					</tbody>
 	                				</table><!-- End .table table-summary -->
@@ -78,9 +106,10 @@
 	                				<a href="checkout.html" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
 	                			</div><!-- End .summary -->
 
-		            			<a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
+		            			<a href="{%url 'home'%}" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
 	                		</aside><!-- End .col-lg-3 -->
 	                	</div><!-- End .row -->
+						{%endif%}
 	                </div><!-- End .container -->
                 </div><!-- End .cart -->
             </div><!-- End .page-content -->

@@ -34,11 +34,14 @@
 
                                     <div class="product-details-action">
                                         <div class="details-action-col">
-                                            <div class="product-details-quantity">
+                                            <!-- <div class="product-details-quantity">
                                                 <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                            </div><!-- End .product-details-quantity -->
-
-                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            </div>End .product-details-quantity -->
+                                            {% if product.quantity <= 0 %}
+                                            <h class="text-danger">product out of stock</h>
+                                            {%else%}
+                                            <a href="{%url 'add_cart' product.id%}" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            {%endif%}
                                         </div><!-- End .details-action-col -->
 
                                     </div><!-- End .product-details-action -->

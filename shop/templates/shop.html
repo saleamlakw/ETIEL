@@ -26,7 +26,11 @@
                                                 class="product-image">
                                         </a>
                                         <div class="product-action action-icon-top">
-                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            {% if prod.quantity <= 0 %}
+                                            <h class="text-danger text-center">product out of stock</h>
+                                            {%else%}
+                                            <a href="{%url 'add_cart' prod.id%}" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            {%endif%}
                                         </div><!-- End .product-action -->
                                     </figure><!-- End .product-media -->
 
