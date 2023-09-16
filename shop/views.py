@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User,auth
 from django.contrib.auth.decorators import login_required
+import requests
 def home(request):
     women =Catagory.objects.get(name="women")
     women_products = women.products.all()[:2]
@@ -100,7 +101,18 @@ def login(request):
             except:
                 pass
             auth.login(request, user)
-            return redirect('home')
+            url=request.META.get('HTTP_REFERER')
+            print("uu->",url)
+            try:
+                query=requests.utils.urlparse(url).query
+                print("->",query)
+                params=dict(x.split('=') for x in query.split('&'))
+                print("->",params)
+                if 'next' in params:
+                    nextpage=params['next']
+                    return redirect(nextpage)
+            except:
+               return redirect('home')
         else:
             messages.info(request, 'Invalid Username or password')
             return redirect('login')
