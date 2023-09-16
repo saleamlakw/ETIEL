@@ -55,8 +55,9 @@ class Cart(models.Model):
     def __str__(self):
         return self.cart_id
 class Cart_item(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    cart=models.ForeignKey(Cart,on_delete=models.CASCADE)
+    cart=models.ForeignKey(Cart,on_delete=models.CASCADE,null=True)
     quantity=models.PositiveIntegerField()
     is_active=models.BooleanField(default=True)
     def sub_total(self):

@@ -7,8 +7,11 @@ def my_context_processor(request):
         return {}
     else:
         try:
-            cart=Cart.objects.get(cart_id=_cart_id(request))
-            cart_items=Cart_item.objects.filter(cart=cart)
+            cart=Cart.objects.filter(cart_id=_cart_id(request))
+            if request.user.is_authenticated:
+                cart_items=Cart_item.objects.all().filter(user=request.user)
+            else:
+                cart_items=Cart_item.objects.all().filter(cart=cart[:1])
             for cart_item in cart_items:
                 total_item+=cart_item.quantity
         except Cart.DoesNotExist:

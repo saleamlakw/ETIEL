@@ -78,16 +78,25 @@
 		                					<thead>
 		                						<tr>
 		                							<th>Product</th>
+													<th class="text-center">Quantity</th>
 		                							<th>Total</th>
 		                						</tr>
 		                					</thead>
-
 		                					<tbody>
-		                						
+												{%for cart_item in cart_items%}
+		                						<tr >
+		                							<td>{{cart_item.product.name}}</td>
+													<td class="text-center">{{cart_item.quantity}}</td>
+		                							<td>{{cart_item.sub_total}}</td>
+		                						</tr><!-- End .summary-total -->
+												{%endfor%}
 		                						<tr class="summary-total">
 		                							<td>Total:</td>
-		                							<td>$160.00</td>
+													<td class="text-center">{{total_item}}</td>
+		                							<td>{{total}}</td>
 		                						</tr><!-- End .summary-total -->
+
+												
 		                					</tbody>
 		                				</table><!-- End .table table-summary -->
 
