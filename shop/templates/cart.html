@@ -60,10 +60,17 @@
 																<i class="icon-minus"></i></a>
 														</div>
 														<input type="text" class="form-control" value="{{cart_item.quantity}}" style="text-align: center" min="1" max="{{cart_item.product.quantity}}" step="1" data-decimals="0" required >
+														{%if cart_item.quantity >= cart_item.product.quantity%}
+														<div class="input-group-append">
+															<a href="{%url 'add_cart' cart_item.product.id%}" class="btn btn-increment btn-spinner" type="button" id="button-minus" style="min-width: 26px;pointer-events: none; ">
+																<i class="icon-plus"></i></a>
+														</div>
+														{%else%}
 														<div class="input-group-append">
 															<a href="{%url 'add_cart' cart_item.product.id%}" class="btn btn-increment btn-spinner" type="button" id="button-minus" style="min-width: 26px">
 																<i class="icon-plus"></i></a>
 														</div>
+														{%endif%}
 													</div>
 												</div> 
                                                 <!-- <div class="cart-product-quantity">

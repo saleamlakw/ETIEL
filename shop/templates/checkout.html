@@ -15,65 +15,48 @@
             <div class="page-content">
             	<div class="checkout">
 	                <div class="container">
-            			<form action="#">
+            			<form action="{%url 'place_order'%}" method="POST">
+							{% csrf_token %}
 		                	<div class="row">
 		                		<div class="col-lg-9">
 		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
 		                				<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>First Name *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" class="form-control" required name="first_name" id="first_name">
 		                					</div><!-- End .col-sm-6 -->
-
 		                					<div class="col-sm-6">
 		                						<label>Last Name *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" class="form-control" required name="last_name" id="last_name">
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
-
-	            						<label>Company Name (Optional)</label>
-	            						<input type="text" class="form-control">
-
 	            						<label>Country *</label>
-	            						<input type="text" class="form-control" required>
-
-	            						<label>Street address *</label>
-	            						<input type="text" class="form-control" placeholder="House number and Street name" required>
-	            						<input type="text" class="form-control" placeholder="Appartments, suite, unit etc ..." required>
-
+	            						<input type="text" class="form-control" required name="country" id="country">
+	            						<label>Address *</label>
+	            						<input type="text" class="form-control" placeholder="House number and Street name" required required name="address" id="address">
 	            						<div class="row">
 		                					<div class="col-sm-6">
-		                						<label>Town / City *</label>
-		                						<input type="text" class="form-control" required>
+		                						<label>City *</label>
+		                						<input type="text" class="form-control" required name="city" id="city">
 		                					</div><!-- End .col-sm-6 -->
-
-		                					<div class="col-sm-6">
-		                						<label>State / County *</label>
-		                						<input type="text" class="form-control" required>
-		                					</div><!-- End .col-sm-6 -->
+		            
 		                				</div><!-- End .row -->
-
 		                				<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>Postcode / ZIP *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" class="form-control" required name="postal_code" id="postal_code">
 		                					</div><!-- End .col-sm-6 -->
-
 		                					<div class="col-sm-6">
 		                						<label>Phone *</label>
-		                						<input type="tel" class="form-control" required>
+		                						<input type="tel" class="form-control" required name="phone_number" id="phone_number">
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
-
 	                					<label>Email address *</label>
-	        							<input type="email" class="form-control" required>
-
-
+	        							<input type="email" class="form-control" required name="email" id="email">
 		                		</div><!-- End .col-lg-9 -->
 		                		<aside class="col-lg-3">
 		                			<div class="summary">
 		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
-
 		                				<table class="table table-summary">
 		                					<thead>
 		                						<tr>
@@ -95,15 +78,11 @@
 													<td class="text-center">{{total_item}}</td>
 		                							<td>{{total}}</td>
 		                						</tr><!-- End .summary-total -->
-
-												
 		                					</tbody>
 		                				</table><!-- End .table table-summary -->
-
-
 		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
 		                					<span class="btn-text">Place Order</span>
-		                					<span class="btn-hover-text">Proceed to Checkout</span>
+		                					<span class="btn-hover-text">Place Order</span>
 		                				</button>
 		                			</div><!-- End .summary -->
 		                		</aside><!-- End .col-lg-3 -->

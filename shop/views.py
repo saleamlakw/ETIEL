@@ -6,18 +6,24 @@ from django.contrib import messages
 from django.contrib.auth.models import User,auth
 from django.contrib.auth.decorators import login_required
 import requests
+from .forms import Order_Form
+import datetime
 def home(request):
     women =Catagory.objects.get(name="women")
-    women_products = women.products.all()[:2]
+    women_products = women.products.all()
     men =Catagory.objects.get(name="men's")
-    men_products = men.products.all()[:2]
+    men_products = men.products.all()
     kid =Catagory.objects.get(name="kids")
-    kid_products = kid.products.all()[:2]
+    kid_products = kid.products.all()
     all=[women_products ,men_products,kid_products]
     all_products=[]
+
     for catag in all:
+        num=0
         for c in catag:
-            all_products.append(c)
+            if c.quantity>0 and num<2:
+                num+=1
+                all_products.append(c)
     # products=Product.objects.all()
     context={"products":all_products}
     return  render(request,'index-3.html',context)
@@ -131,7 +137,7 @@ def register(request):
        Confirm_password = request.POST['Confirm_password']
        if password==Confirm_password:
             if User.objects.filter(username=username).exists():
-                messages.info(request, 'username is exist ')
+                messages.info(request, 'username already exist ')
                 return redirect(register)
             else:
                 user = User.objects.create_user(username=username,
@@ -140,9 +146,9 @@ def register(request):
                 user.save()
                 print("success")
                 return redirect('login')
-    else:
-        print("no post method")
-        return render(request,'register.html')
+       else:
+            messages.info(request, 'The new password and the confirmed password are not the same')
+    return render(request,'register.html')
 def product(request,pk):
     product=get_object_or_404(Product, pk=pk)
     return render(request,'product-centered.html',{"product":product})
@@ -151,7 +157,7 @@ def shop(request,shop_pk):
     catagorized_product=pro.products.all()
     return render(request,'shop.html',{"catagorized_product":catagorized_product,"catagory_name":pro.name})
 @login_required
-def myAccount(request):
+def myAccount(request,total=0,quantity=0):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -198,8 +204,14 @@ def myAccount(request):
         # Redirect to a success page or appropriate URL
         return redirect('myAccount')
     else:
+        orderdproduct=Order_product.objects.all().filter(user=request.user)
+        for item in orderdproduct:
+            total+=(item.product.price*item.quantity)
+            quantity+=item.quantity
+        tax=(2*total)/100
+        grand_total=tax+total
         user= User.objects.get(username=request.user)
-        return render(request,'myAccount.html',{"user":user})
+        return render(request,'myAccount.html',{"user":user,"orderdproduct":orderdproduct,'total':total,'grand_total':grand_total,"quantity":quantity})
 def _cart_id(request):
     cart=request.session.session_key
     if not cart:
@@ -209,13 +221,6 @@ def add_cart(request,product_id):
     current_user=request.user
     if current_user.is_authenticated:
         product=get_object_or_404(Product, pk=product_id)
-        # try:
-        #     cart=Cart.objects.get(cart_id=_cart_id(request))
-        # except Cart.DoesNotExist:
-        #     cart=Cart.objects.create(
-        #         cart_id=_cart_id(request)
-        #     )
-        # cart.save()
         try:
             cart_item=Cart_item.objects.get(product=product,user=request.user)
             cart_item.quantity+=1
@@ -271,4 +276,72 @@ def remove_cart_item(request,product_id):
         cart_item=Cart_item.objects.get(cart=cart,product=product)
     cart_item.delete()
     return redirect('cart')
+def place_order(request,total=0,quantity=0):
+    current_user=request.user
+    cart_item=Cart_item.objects.filter(user=current_user)
+    cart_count=cart_item.count()
+    if cart_count<=0:
+        return redirect('home')
+    grand_total=0
+    tax=0
+    for item in cart_item:
+            total+=(item.product.price*item.quantity)
+            quantity+=item.quantity
+    tax=(2*total)/100
+    grand_total=tax+total
+    if request.method=='POST':
+        form=Order_Form(request.POST)
+        if form.is_valid():
+            data=Order()
+            data.user=current_user
+            data.first_name=form.cleaned_data['first_name']
+            data.last_name=form.cleaned_data['last_name']
+            data.phone_number=form.cleaned_data['phone_number']
+            data.email=form.cleaned_data['email']
+            data.address=form.cleaned_data['address']
+            data.postal_code=form.cleaned_data['postal_code']
+            data.country=form.cleaned_data['country']
+            data.city=form.cleaned_data['city']
+            data.order_total=grand_total
+            data.tax=tax
+            data.ip=request.META.get('REMOTE_ADDR') 
+            data.save()
+            #generate order number
+            yr=int(datetime.date.today().strftime('%Y'))
+            dt=int(datetime.date.today().strftime('%d'))
+            mt=int(datetime.date.today().strftime('%m'))
+            d=datetime.date(yr,mt,dt)
+            current_date=d.strftime("%Y%m%d")
+            data.order_number=current_date + str(data.id)
+            data.save()
+            """moving cart item product to order item product .this must be implemented in payment view
+            but since we dont have payment method this fuctionality will excute here"""
+            #move the cart item to order product table 
+            cart_item=Cart_item.objects.filter(user=request.user)
+            for item in cart_item:
+                orderproduct=Order_product()
+                orderproduct.order_id=data.id
+                # orderproduct.payment=Payment
+                orderproduct.user_id=request.user.id
+                orderproduct.product_id=item.product.id
+                orderproduct.quantity=item.quantity
+                orderproduct.product_price=item.product.price
+                orderproduct.ordered=True
+                orderproduct.save()
+                #reduce the quantity of the sold product 
+                product=Product.objects.get(id=item.product_id)
+                product.quantity-=item.quantity
+                product.save()
+            #clear cart
+            Cart_item.objects.filter(user=request.user).delete()
+            #send order recived email to the customer 
+            #send transaction id and order number back to send datamethod via json response 
+            return redirect('home') #this must be to sucess page for now
+        else:
+            return redirect('checkout')
+
+
+
+            
+
 

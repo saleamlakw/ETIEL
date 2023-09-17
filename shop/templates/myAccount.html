@@ -71,8 +71,64 @@
 									</div>
 								    </div><!-- .End .tab-pane -->
 								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-								    	<p>No order has been made yet.</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+										<!-- show product template -->
+										{%if not orderdproduct%}
+										<p>No order has been made yet.</p>
+								    	<a href="{%url 'home'%}" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a> 
+										{%else%}
+										<div class="col-lg-9">
+											<table class="table table-cart table-mobile">
+												<thead>
+													<tr>
+														<th>Product</th>
+														<th>Price</th>
+														<th>Quantity</th>
+														<th>Total</th>
+														<th  class="text-center">Status</th>
+											
+													</tr>
+												</thead>
+										
+												<tbody>
+													{%for item in orderdproduct%}
+													<tr>
+														<td class="product-col">
+															<div class="product">
+																<figure class="product-media">
+																	<a href="#">
+																		<img src="{{item.product.image.url}}" alt="Product image">
+																	</a>
+																</figure>
+			
+																<h3 class="product-title">
+																	<a href="{%url 'product' item.product.id %}">{{item.product.name}}</a>
+																</h3><!-- End .product-title -->
+															</div><!-- End .product -->
+														</td>
+														<td class="price-col">{{item.product.price}}</td>
+														<td class="quantity-col">
+															<div class="cart-product-quantity">
+																<p>{{item.quantity}}</p>
+															</div> 
+					
+														</td>
+														<td class="total-col">{{item.sub_total}}</td>
+														<td  class="text-center">{{item.order.status}}</td>
+											
+													</tr>
+													{%endfor%}
+													<tr class="summary-total">
+														<td class="text-center">Total:</td>
+														<td class="text-center">      </td>
+														<td >{{quantity}}</td>
+														<td >{{total}}</td>
+													</tr><!-- End .summary-total -->
+												</tbody>
+												
+											</table><!-- End .table table-wishlist -->
+			
+										</div><!-- End .col-lg-9 -->
+										{%endif%}
 								    </div><!-- .End .tab-pane -->
 								</div>
 	                		</div><!-- End .col-lg-9 -->
