@@ -108,7 +108,7 @@ def login(request):
                 pass
             auth.login(request, user)
             url=request.META.get('HTTP_REFERER')
-            print("uu->",url)
+            
             try:
                 query=requests.utils.urlparse(url).query
                 
@@ -144,7 +144,7 @@ def register(request):
                 password=password, email=email, first_name=first_name, last_name=last_name)
                 user.set_password(password)
                 user.save()
-                print("success")
+               
                 return redirect('login')
        else:
             messages.info(request, 'The new password and the confirmed password are not the same')
@@ -155,7 +155,7 @@ def product(request,pk):
 def shop(request,shop_pk):
     pro=get_object_or_404(Catagory,pk=shop_pk)
     catagorized_product=pro.products.all()
-    print(pro.name)
+   
     return render(request,'shop.html',{"catagorized_product":catagorized_product,"catagory_name":pro.name})
 @login_required
 def myAccount(request,total=0,quantity=0):
@@ -190,7 +190,7 @@ def myAccount(request,total=0,quantity=0):
             user.last_name=last_name
         if username:
             user.username = username
-            print(username)
+            
         if email:
             user.email = email
         # Save the updated user to the database
