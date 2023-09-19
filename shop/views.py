@@ -336,9 +336,11 @@ def place_order(request,total=0,quantity=0):
             Cart_item.objects.filter(user=request.user).delete()
             #send order recived email to the customer 
             #send transaction id and order number back to send datamethod via json response 
-            return redirect('home') #this must be to sucess page for now
+            return redirect('success') #this must be to sucess page for now
         else:
             return redirect('checkout')
+def success(request):
+    return render(request,'success.html')
 
 
 
