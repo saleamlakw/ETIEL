@@ -2,8 +2,8 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 urlpatterns = [
-    path('home/',views.home,name="home"),\
-    path('',views.home,name="home"),
+    path('home/',views.home,name="home"),
+    path('',views.home,name="homeg"),
     path('about/',views.about,name="about"),
     path('cart/',views.cart,name="cart"),
     path('checkout/',views.checkout,name="checkout"),
