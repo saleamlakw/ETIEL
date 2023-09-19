@@ -4,13 +4,23 @@
         <main class="main">
             <div class="page-header text-center" style="background-image: url('{% static 'images/page-header-bg.jpg'%}')">
                 <div class="container-fluid">
+                    {%if catagory_name %}
                     <h1 class="page-title">{{catagory_name}} Habesha Cloth</h1>
+                    {%else%}
+                    <h1 class="page-title">Search result for {{query}}</h1>
+                    {%endif%}
                 </div><!-- End .container-fluid -->
             </div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
                 <div class="container-fluid">
                 </div><!-- End .container-fluid -->
             </nav><!-- End .breadcrumb-nav -->
+            {%if not catagorized_product%}
+            <h2 class="text-center">No product</h2>
+						<div class="text-center">
+							<a class="btn btn-outline-primary-2" href="{%url 'home'%}">countinue shoping</a>
+						</div>
+            {%else%}
             <div class="page-content">
                 <div class="container-fluid">
                     <div class="products">
@@ -38,7 +48,7 @@
                                         <div class="product-cat">
                                             <a href="#">{{prod.catagory}}</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Nunc dignissim risus</a></h3>
+                                        <h3 class="product-title"><a href="{%url 'product' prod.id %}">{{prod.name}}</a></h3>
                                         <!-- End .product-title -->
                                         <div class="product-price">
                                             {{prod.price}}
@@ -55,6 +65,7 @@
                     <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
                 </div><!-- End .container-fluid -->
             </div><!-- End .page-content -->
+            {%endif%}
         </main><!-- End .main -->
 {%endblock%}
         

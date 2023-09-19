@@ -111,9 +111,9 @@ def login(request):
             print("uu->",url)
             try:
                 query=requests.utils.urlparse(url).query
-                print("->",query)
+                
                 params=dict(x.split('=') for x in query.split('&'))
-                print("->",params)
+              
                 if 'next' in params:
                     nextpage=params['next']
                     return redirect(nextpage)
@@ -155,6 +155,7 @@ def product(request,pk):
 def shop(request,shop_pk):
     pro=get_object_or_404(Catagory,pk=shop_pk)
     catagorized_product=pro.products.all()
+    print(pro.name)
     return render(request,'shop.html',{"catagorized_product":catagorized_product,"catagory_name":pro.name})
 @login_required
 def myAccount(request,total=0,quantity=0):
@@ -342,8 +343,14 @@ def place_order(request,total=0,quantity=0):
 def success(request):
     return render(request,'success.html')
 
+from django.db.models import Q
 
-
-            
-
-
+def search(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        product=Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        context = {
+            'catagorized_product' : product,
+            'query':query
+        }
+        return render(request,'shop.html', context)

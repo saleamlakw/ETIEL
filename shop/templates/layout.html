@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Molla -Online Habesha cloth shoping store</title>
+    <title>ETIEL-Online Habesha cloth shoping store</title>
     <meta name="Habesha cloth" content="Habesha cloth shoping store">
     <meta name="description" content="Molla - Online Habesha cloth shoping store">
     <meta name="author" content="p-themes">
@@ -46,18 +46,19 @@
                 </button>
 
                 <a href="{%url 'home'%}" class="logo">
-                    <img src="{%static 'images/demos/demo-3/logo.png'%}" alt="Molla Logo" width="105" height="25">
+                    <img src="{%static 'images/etiel.svg'%}" alt="Molla Logo" width="160" height="60">
                 </a>
             </div><!-- End .header-left -->
 
             <div class="header-center">
                 <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                    <form action="" method="POST">
+                    <form action="{% url 'search' %}" method="GET">
+                        {% csrf_token %}
                         <div class="header-search-wrapper search-wrapper-wide">
                             <label for="q" class="sr-only">Search</label>
                             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                            <input type="search" class="form-control" name="q" id="q"
+                            <input type="search" class="form-control" name="query" id="q"
                                 placeholder="Search product ..." required>
                         </div><!-- End .header-search-wrapper -->
                     </form>
@@ -152,8 +153,8 @@
             <div class="row">
                 <div class="col-sm-6 col-lg-3">
                     <div class="widget widget-about">
-                        <img src="{%static 'images/demos/demo-3/logo-footer.png'%}" class="footer-logo"
-                            alt="Footer Logo" width="105" height="25">
+                        <img src="{%static 'images/etiel_foot.svg'%}" class="footer-logo"
+                            alt="Footer Logo" width="120" height="35">
                         <p>Discover the Timeless Elegance of Ethiopian Habesha Clothing, Just a Click Away! </p>
 
                         <div class="widget-call">
