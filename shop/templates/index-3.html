@@ -58,7 +58,7 @@
                                 </figure><!-- End .product-media -->
                                 <div class="product-body">
                                     <div class="product-cat">
-                                        <a href="#">{{product.catagory}}</a>
+                                        <a href="{%url 'shop' product.catagory.id %}">{{product.catagory}}</a>
                                     </div><!-- End .product-cat -->
                                     <h3 class="product-title"><a href="{%url 'product' product.id %}">{{product.name}}" Display, i5</a>
                                     </h3><!-- End .product-title -->
