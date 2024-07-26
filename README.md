@@ -1,4 +1,4 @@
-# Online Shopping Website
+# Etiel Online Shopping Website
 
 This project is an online shopping website built using Django for the backend and HTML, CSS, and JavaScript for the frontend. The application provides a complete shopping experience with features like product listings, user authentication, shopping cart, and order management.
 
