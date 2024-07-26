@@ -67,3 +67,8 @@ Start the Django development server:
 python manage.py runserver
 ```
 ### Visit http://127.0.0.1:8000/ in your web browser to see the application in action
+
+
+https://github.com/user-attachments/assets/60244cec-0092-4460-bed1-9266f4b0913c
+
+
