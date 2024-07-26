@@ -30,7 +30,7 @@ This project is an online shopping website built using Django for the backend an
 
     ```bash
     git clone https://github.com/saleamlakw/online_shopping.git
-    cd onlineshop
+    cd online_shopping
     ```
 
 2. Install the required Python packages:
